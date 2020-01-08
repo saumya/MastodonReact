@@ -37,8 +37,8 @@ class ContactComp extends React.Component {
     }
     render(){
         return(
-            <div>
-                <p>{this.state.value}</p>
+            <React.Fragment>
+                <p className="is-size-5 has-text-primary">{this.state.value}</p>
                 <form onSubmit={this.handleFormSubmit}>
                 <label>
                     Name:
@@ -46,7 +46,7 @@ class ContactComp extends React.Component {
                 </label>
                 <input type="submit" value="Submit" />
                 </form>
-            </div>
+            </React.Fragment>
         );
     }
 }

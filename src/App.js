@@ -10,13 +10,15 @@ import ContactComp from './comps/contact.comp';
 
 function App() {
   return (
-    <div className="App">
-      <header>
-        <HomeComp name="One" />
-        <InfoComp name="One" />
-        <ContactComp />
-      </header>
-    </div>
+    <section className="section">
+      <div className="container">
+        <header>
+          <HomeComp name="One" />
+          <InfoComp name="One" />
+          <ContactComp />
+        </header>
+      </div>
+    </section>
   );
 }
 

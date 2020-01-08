@@ -3,7 +3,7 @@ import React from 'react'
 //
 function HomeComp(props){
 	return (
-		<h1>Home : {props.name}</h1>
+		<h1 className="title">Home : {props.name}</h1>
 	);
 }
 
