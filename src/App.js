@@ -5,6 +5,7 @@ import './App.css';
 //
 import HomeComp from './comps/home.comp';
 import InfoComp from './comps/info.comp';
+import ContactComp from './comps/contact.comp';
 //
 
 function App() {
@@ -13,6 +14,7 @@ function App() {
       <header>
         <HomeComp name="One" />
         <InfoComp name="One" />
+        <ContactComp />
       </header>
     </div>
   );
