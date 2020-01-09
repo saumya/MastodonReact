@@ -1,4 +1,4 @@
-React App for Toot Updates
+Toot API integration
 ====================================
 
 First is `npx` and second is `npm`

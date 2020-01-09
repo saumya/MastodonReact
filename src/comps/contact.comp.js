@@ -71,17 +71,21 @@ class ContactComp extends React.Component {
     render(){
         return(
             <React.Fragment>
-                <h3 className='is-size-4'> Toot </h3>
-                <p className="is-size-5 has-text-primary">{this.state.value}</p>
-                {this.state.isTootDone ? <p className="is-size-5 has-text-success">Toot Successful.</p> : <p> Fail! </p>}
-                <form onSubmit={this.handleFormSubmit}>
-                <label>
-                    Status:
-                    <input type="text" value={this.state.value} onChange={this.handleNameChange} />
-                </label>
-                <input type="submit" value="Toot" />
-                </form>
-                { this.state.isTootDone ? <span> Toot : <a className='is-size-6' href={ this.state.tootUrl }>{this.state.tootUrl}</a> </span> : null }
+                <div className='box has-background-white-ter'>
+                    
+                        <h3 className='is-size-4'> Toot | What are you doing?</h3>
+                        <p className="is-size-5 has-text-primary">{this.state.value}</p>
+                        {this.state.isTootDone ? <p className="is-size-5 has-text-success">Toot Successful.</p> : <p> Fail! </p>}
+                        <form onSubmit={this.handleFormSubmit}>
+                        <label>
+                            Status:
+                            <input type="text" value={this.state.value} onChange={this.handleNameChange} />
+                        </label>
+                        <input type="submit" value="Toot" />
+                        </form>
+                        { this.state.isTootDone ? <span> Toot : <a className='is-size-6' href={ this.state.tootUrl }>{this.state.tootUrl}</a> </span> : null }
+                    
+                </div>
             </React.Fragment>
         );
     }
