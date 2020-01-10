@@ -6,6 +6,7 @@ import './App.css';
 import HomeComp from './comps/home.comp';
 import InfoComp from './comps/info.comp';
 import ContactComp from './comps/contact.comp';
+import MastodonComp from './comps/mastodon.comp';
 //
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <HomeComp name="One" />
           <InfoComp name="One" />
           <ContactComp />
+          <MastodonComp />
         </header>
       </div>
     </section>
