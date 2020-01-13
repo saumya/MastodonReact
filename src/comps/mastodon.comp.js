@@ -1,5 +1,5 @@
 //
-import React, { useState, userEffect, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 //
 import AppConfig from './app.configs'
 //
@@ -15,6 +15,7 @@ const MastodonComp = function(props){
             //Do Nothing
             //document.title = 'Toot API';
         }else{
+            console.log('--- check --- for render ---');
             document.title = 'Mastodon.Login';
         }
 
@@ -22,7 +23,11 @@ const MastodonComp = function(props){
         return function cleanup() {
             document.title = 'Toot API';
         };
-    });
+    },[authCode]);
+    // EffectHook: 
+    // 1. Can be called multiple times as StateHook
+    // 2. Return a function() for cleanup side-effect
+    // 3. Has an optional 2nd param for optimisation
     //--- Hooks / ---
 
     const mastodon_instance = 'https://mastodon.social';
