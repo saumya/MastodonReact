@@ -1,5 +1,5 @@
 //
-import React, { useState } from 'react';
+import React, { useState, userEffect, useEffect } from 'react';
 //
 import AppConfig from './app.configs'
 //
@@ -7,8 +7,18 @@ const MastodonComp = function(props){
 
     //const testProp = 'What?!';
 
-    // Declare a new state variable, which we'll call "count"
+    //--- Hooks ---
+    // Declare a new state variable, which we'll call "authCode"
     const [authCode, setAuthCode] = useState('');
+    useEffect(()=>{
+        if(authCode===''){
+            //Do Nothing
+            //document.title = 'Toot API';
+        }else{
+            document.title = 'Mastodon.Login';
+        }
+    });
+    //--- Hooks / ---
 
     const mastodon_instance = 'https://mastodon.social';
 
