@@ -17,6 +17,11 @@ const MastodonComp = function(props){
         }else{
             document.title = 'Mastodon.Login';
         }
+
+        // Specify how to clean up after this effect:
+        return function cleanup() {
+            document.title = 'Toot API';
+        };
     });
     //--- Hooks / ---
 
