@@ -7,6 +7,7 @@ import HomeComp from './comps/home.comp';
 import InfoComp from './comps/info.comp';
 import ContactComp from './comps/contact.comp';
 import MastodonComp from './comps/mastodon.comp';
+import Auth0Comp from './comps/auth0.comp';
 //
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
     }else if( uiName === 'mastodon' ){
       uiCompToRender = ( <MastodonComp /> );
     }else if( uiName === 'auth0' ){
-      uiCompToRender = ( <div>TODO</div> );
+      uiCompToRender = ( <Auth0Comp name='App.js:Auth0Comp' /> );
     }
     return uiCompToRender;
   }
