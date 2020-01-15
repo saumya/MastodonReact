@@ -2,9 +2,14 @@ Toot API integration
 ====================================
 
  - Styling. [Bulma][bulma]
- - Toot. [Masto.js][masto]
  - App. [React][react]
  - Tooling. [Create React App][cra]
+
+#### Libraries used
+
+ - Toot. [Masto.js][masto]
+ - Auth0. [auth0-spa-js][auth0-spa-js]
+
 
 
 
@@ -67,8 +72,12 @@ TLDR; `package.json` add the following line.
 
 
 [bulma]: https://bulma.io/documentation/modifiers/color-helpers/
+
 [m1]: https://docs.joinmastodon.org/client/libraries/
 [masto]: https://github.com/neet/masto.js
+
+[auth0-spa-js]: https://www.npmjs.com/package/auth0-spa-js
+
 [d1]: https://create-react-app.dev/docs/deployment#serving-the-same-build-from-different-paths
 [react]: https://reactjs.org/
 [cra]: https://create-react-app.dev/
