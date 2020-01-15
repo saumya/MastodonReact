@@ -79,9 +79,9 @@ class ContactComp extends React.Component {
                         <form onSubmit={this.handleFormSubmit}>
                         <label>
                             Status:
-                            <input type="text" value={this.state.value} onChange={this.handleNameChange} />
+                            <input className="input" type="text" value={this.state.value} onChange={this.handleNameChange} />
                         </label>
-                        <input type="submit" value="Toot" />
+                        <input className="button is-info" type="submit" value="Toot" />
                         </form>
                         { this.state.isTootDone ? <span> Toot : <a className='is-size-6' href={ this.state.tootUrl }>{this.state.tootUrl}</a> </span> : null }
                     

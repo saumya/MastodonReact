@@ -12,6 +12,12 @@ import Auth0Comp from './comps/auth0.comp';
 
 function App() {
 
+  const pathNames = {
+    'toot':'TOOT',
+    'mastodon':'Mastodon',
+    'auth0':'Auth0'
+  }
+
   // home, mastodon, auth0
   const [ uiName, setUIName ] = useState('home');
   useEffect(()=>{
@@ -21,25 +27,25 @@ function App() {
   //
   const renderUIForState = ()=>{
     let uiCompToRender = null;
-    if(uiName === 'home'){
+    if(uiName === pathNames.toot){
       uiCompToRender = ( <ContactComp /> );
-    }else if( uiName === 'mastodon' ){
+    }else if( uiName === pathNames.mastodon ){
       uiCompToRender = ( <MastodonComp /> );
-    }else if( uiName === 'auth0' ){
+    }else if( uiName === pathNames.auth0 ){
       uiCompToRender = ( <Auth0Comp name='App.js:Auth0Comp' /> );
     }
     return uiCompToRender;
   }
   //
 
-  const onHomeClick = () => {
-    setUIName('home');
+  const onTootClick = () => {
+    setUIName(pathNames.toot);
   }
   const onMastodonClick = () => {
-    setUIName('mastodon');
+    setUIName(pathNames.mastodon);
   }
   const onAuth0Click = () => {
-    setUIName('auth0');
+    setUIName(pathNames.auth0);
   }
 
   //console.log('uiToRender:', uiToRender);
@@ -52,7 +58,7 @@ function App() {
           <HomeComp name="One" />
           <InfoComp name="One" />
 
-          <button className="button" onClick={onHomeClick}>Home</button>
+          <button className="button" onClick={onTootClick}>Toot</button>
           <button className="button" onClick={onMastodonClick}>Mastodon</button>
           <button className="button" onClick={onAuth0Click}>Auth0</button>
 
