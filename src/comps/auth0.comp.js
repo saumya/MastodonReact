@@ -33,6 +33,8 @@ const Auth0Comp = function(props){
                         console.log( 'error_login_url' );
                         console.log(error_login_url);
                     });
+
+                    //return false;
                 }
                 
                 if(result===false){
