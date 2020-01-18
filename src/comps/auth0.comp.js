@@ -36,17 +36,22 @@ const Auth0Comp = function(props){
                    // show the gated content
                    return
                }else{
-                console.log( 'auth0client.isAuthenticated() : isAuthenticated : isAuthenticated_result : ELSE ' );
+                    console.log( 'auth0client.isAuthenticated() : isAuthenticated : isAuthenticated_result : ELSE ' );
                    //
-                   /*
+                   //
+                   searchToObject();
+                    // show Login UI
                     auth0client.loginWithRedirect({ redirect_uri: window.location.origin }).then(function(result){
-                        console.log('RESULT');
+                        console.log('--- RESULT --- loginWithRedirect ---');
                         console.log( result );
+                        
+                        return false;
+
                     }).catch(function(error){
                         console.log('ERROR');
                         console.log( error );
                     });
-                    */
+                        
                    // conditions
                    // 1. logged in 
                    // 2. url changed but logged in is not set
@@ -58,49 +63,35 @@ const Auth0Comp = function(props){
 
                         // Process the login state
                         auth0client.handleRedirectCallback().then(function(handleRedirectCallback_result){
-                            console.log('handleRedirectCallback_result');
+                            console.log('handleRedirectCallback() : RESULT');
                             console.log( handleRedirectCallback_result );
                             // Use replaceState to redirect the user away and remove the querystring parameters
                             //window.history.replaceState({}, document.title, "/");
 
                             //const isAuthenticated = await auth0.isAuthenticated();
-                            /*
+                            
                             auth0client.isAuthenticated().then(function(isAuthenticated_result){
-                                console.log('isAuthenticated : RESULT');
+                                console.log('handleRedirectCallback() : isAuthenticated : RESULT');
                                 console.log( isAuthenticated_result );
 
                             }).catch(function(isAuthenticated_error){
-                                console.log( 'isAuthenticated : ERROR' );
+                                console.log( 'handleRedirectCallback() : isAuthenticated : ERROR' );
                                 console.log( isAuthenticated_error );
                             });
-                            */
-                           console.log('-------- state ---------');
-                           console.log( this.state );
-
+                            
+                           //console.log('-------- state ---------');
+                           //console.log( this.state );
+                           return false;
                         }).catch(function(handleRedirectCallback_error){
-                            console.log( 'handleRedirectCallback_error' );
+                            console.log( 'handleRedirectCallback() : ERROR' );
                             console.log( handleRedirectCallback_error );
-                        });
-                    }else{
-                        console.log('URL : code & state : ELSE');
-                        // show Login UI
-                        auth0client.loginWithRedirect({ redirect_uri: window.location.origin }).then(function(result){
-                            console.log('RESULT');
-                            console.log( result );
-                        }).catch(function(error){
-                            console.log('ERROR');
-                            console.log( error );
                         });
                     }
                }
-               //
-              
-
            }).catch(function(isAuthenticated_error){
                console.log( 'isAuthenticated : ERROR' );
                console.log( isAuthenticated_error );
            });
-
 
         }else{
             console.log('auth0client : ELSE');
@@ -110,6 +101,23 @@ const Auth0Comp = function(props){
 
        console.log('--- useEffect / ---');
     } );
+
+    const searchToObject = () => {
+        console.log( 'searchToObject' );
+
+        var pairs = window.location.search.substring(1).split("&"),
+          obj = {},
+          pair,
+          i;
+      
+        for ( i in pairs ) {
+          if ( pairs[i] === "" ) continue;
+          //
+          pair = pairs[i].split("=");
+          obj[ decodeURIComponent( pair[0] ) ] = decodeURIComponent( pair[1] );
+        }
+        return obj;
+    }
 
     const onInitAuth0 = () => {
         console.log('onInitAuth0()');
