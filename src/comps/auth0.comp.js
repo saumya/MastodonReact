@@ -13,96 +13,96 @@ const Auth0Comp = function(props){
 
     //var test = 'Testing';
 
-    const [auth0client,setAuth0Client] = useState(null);
-    //const [isAuthenticated, setIsAuthenticated] = useState();
+    const [auth0client, setAuth0Client] = useState(null);
+    const [isAuthenticatedFlag, setIsAuthenticatedFlag] = useState(false);
+    const [userObj, setUserObj] = useState(null);
     
     useEffect( ()=>{
         console.log('--- useEffect ---');
         //console.log('auth0client',auth0client);
+        //debugger;
 
-        if(auth0client){
-            console.log('auth0client : IF');
-            console.log( auth0client );
+        if(userObj !== null ){
 
-           auth0client.isAuthenticated().then(function(isAuthenticated_result){
-               console.log( 'isAuthenticated : RESULT' );
-               console.log( isAuthenticated_result );
+            console.log( 'User : valid' );
+            console.log( userObj );
 
-               //isAuthenticated
-               //
-               if(isAuthenticated_result){
-                   console.log( 'auth0client.isAuthenticated() : isAuthenticated : isAuthenticated_result : IF ' );
-                   console.log( isAuthenticated_result );
-                   // show the gated content
-                   return
-               }else{
-                    console.log( 'auth0client.isAuthenticated() : isAuthenticated : isAuthenticated_result : ELSE ' );
-                   //
-                   //
-                   searchToObject();
-                    // show Login UI
-                    auth0client.loginWithRedirect({ redirect_uri: window.location.origin }).then(function(result){
-                        console.log('--- RESULT --- loginWithRedirect ---');
-                        console.log( result );
-                        
-                        return false;
-
-                    }).catch(function(error){
-                        console.log('ERROR');
-                        console.log( error );
-                    });
-                        
-                   // conditions
-                   // 1. logged in 
-                   // 2. url changed but logged in is not set
-                   const query = window.location.search;
-                    if (query.includes("code=") && query.includes("state=")) {
-                        console.log('URL : code & state : IF');
-                        console.log(query);
-                        // Login Success
-
-                        // Process the login state
-                        auth0client.handleRedirectCallback().then(function(handleRedirectCallback_result){
-                            console.log('handleRedirectCallback() : RESULT');
-                            console.log( handleRedirectCallback_result );
-                            // Use replaceState to redirect the user away and remove the querystring parameters
-                            //window.history.replaceState({}, document.title, "/");
-
-                            //const isAuthenticated = await auth0.isAuthenticated();
-                            
-                            auth0client.isAuthenticated().then(function(isAuthenticated_result){
-                                console.log('handleRedirectCallback() : isAuthenticated : RESULT');
-                                console.log( isAuthenticated_result );
-
-                            }).catch(function(isAuthenticated_error){
-                                console.log( 'handleRedirectCallback() : isAuthenticated : ERROR' );
-                                console.log( isAuthenticated_error );
-                            });
-                            
-                           //console.log('-------- state ---------');
-                           //console.log( this.state );
-                           return false;
-                        }).catch(function(handleRedirectCallback_error){
-                            console.log( 'handleRedirectCallback() : ERROR' );
-                            console.log( handleRedirectCallback_error );
-                        });
-                    }
-               }
-           }).catch(function(isAuthenticated_error){
-               console.log( 'isAuthenticated : ERROR' );
-               console.log( isAuthenticated_error );
-           });
+            console.log('User: Login : Successful.');
+            console.log('TODO: Move on');
 
         }else{
-            console.log('auth0client : ELSE');
-        }
+            console.log( 'User : Not Valid' );
 
-       
+                // check URL
+                const query = window.location.search;
+                if (query.includes("code=") && query.includes("state=")) {
+                    console.log('URL : code & state : IF');
+                    console.log(query);
+                    // wait for auth0client to be initialised
+                    // to initialise the client, the call is made already. So just wait.
+                    if(auth0client){
+                        console.log('URL : code & state : IF : auth0client : IF');
+                        //
+                        auth0client.handleRedirectCallback().then(function(result){
+                            console.log('URL : code & state : IF : auth0client : IF : handleRedirectCallback : RESULT :');
+                            console.log('result',result);
 
-       console.log('--- useEffect / ---');
-    } );
+                            auth0client.isAuthenticated().then(function(isAuthenticated_result){
+                                console.log('RESULT');
+                                console.log('isAuthenticated_result',isAuthenticated_result);
+                                
+                                // reset the URL
+                                window.history.replaceState({}, document.title, "/");
+                                // useState
+                                setIsAuthenticatedFlag( isAuthenticated_result );
 
-    const searchToObject = () => {
+                                //return {'result':isAuthenticated_result}
+                            }).catch(function(e){
+                                console.log('ERROR');
+                                console.log(e);
+                            });
+
+                        }).catch(function(error){
+                            console.log('URL : code & state : IF : auth0client : IF : handleRedirectCallback : ERROR :');
+                            console.log('error',error);
+                        });
+                        //
+                        var objFromURL = urlSearchToObject();
+                        console.log( objFromURL ); // objFromURL.code, objFromURL.state
+                        //
+                        //
+                    }else{
+                        console.log('URL : code & state : IF : auth0client : ELSE');
+                        console.log('Just wait ....');
+                        console.log('initAuth0() is called already to initialise the auth0client');
+                    }
+                }else{
+                    console.log('URL : code & state : ELSE');
+                    if(auth0client){
+                        console.log('URL : code & state : ELSE : auth0client : IF : initAuthentication()');
+                        initAuthentication();
+                    }else{
+                        console.log('URL : code & state : ELSE : auth0client : ELSE : Just wait for auth0client to be initialised');
+                    }
+                    
+                }
+
+                
+
+            
+
+            console.log('--- useEffect / ---');
+            // init the auth0Client
+            onInitAuth0(); 
+            // The above call will result in calling useState and 
+            // that will call useEffect()
+            // We will be back in this closure but now with auth0Client initialised
+        
+        }// If userObj
+
+    } ); // useEffect
+
+    const urlSearchToObject = () => {
         console.log( 'searchToObject' );
 
         var pairs = window.location.search.substring(1).split("&"),
@@ -117,25 +117,85 @@ const Auth0Comp = function(props){
           obj[ decodeURIComponent( pair[0] ) ] = decodeURIComponent( pair[1] );
         }
         return obj;
-    }
+    }// urlSearchToObject
+    //
+    const initAuthentication = async () => {
+        console.log('initAuthentication');
+        
+        if( isAuthenticatedFlag ){
+            // Do Nothing
+            console.log('initAuthentication : isAuthenticatedFlag : IF :', isAuthenticatedFlag);
+            console.log('initAuthentication : isAuthenticatedFlag : IF : DoingNothing. Just a If-Else Console.log');
+            //
+            auth0client.getUser().then(function(getUser_result){
+                console.log('getUser() : RESULT : START');
+                console.log( getUser_result );
 
+                setUserObj( getUser_result );
+
+                console.log('getUser() : RESULT : END');
+            }).catch(function(getUser_error){
+                console.log('getUser() : ERROR : START');
+                console.log( getUser_error );
+                console.log('getUser() : ERROR : END');
+            });
+            //
+        }else{
+            console.log('initAuthentication : isAuthenticatedFlag : ELSE :', isAuthenticatedFlag);
+            //const isAuthenticated = await auth0client.isAuthenticated();
+            //console.log('initAuthentication : isAuthenticatedFlag : ELSE : await : ', isAuthenticatedFlag);
+            //setIsAuthenticatedFlag(isAuthenticated);
+            
+            auth0client.loginWithRedirect( { redirect_uri: window.location.origin } ).then(function(result){
+                console.log('initAuthentication : isAuthenticatedFlag : ELSE : loginWithRedirect() : result');
+                
+                // This will hardly cause any difference
+                console.log( result );
+                // Because, as soon as Login / Register happens
+                // It will redirect to the original page
+                //
+            }).catch(function(error){
+                console.log('initAuthentication : isAuthenticatedFlag : ELSE : loginWithRedirect() : error');
+                console.log( error );
+            });
+            
+           //auth0client.loginWithPopup( {redirect_uri: window.location.origin} );
+        }
+    }// initAuthentication()
+    //
     const onInitAuth0 = () => {
         console.log('onInitAuth0()');
+        //
+        const initThisClient = function(){
+            console.log('initThisClient() : initialising : wait ...');
 
-        createAuth0Client({
-            domain: AppConfig.auth0.domain,
-            client_id: AppConfig.auth0.clientId
-        }).then(function( createAuth0Client_result ){
-            //console.log('RESULT1',test);
-            //console.log(result1);
-            console.log( 'createAuth0Client:RESULT ' );
-            setAuth0Client( createAuth0Client_result );
-        }).catch(function( createAuth0Client_error ){
-            console.log( 'createAuth0Client:ERROR ' );
-            console.log( createAuth0Client_error );
-        });
-        
-    }
+            createAuth0Client({
+                domain: AppConfig.auth0.domain,
+                client_id: AppConfig.auth0.clientId
+            }).then(function( createAuth0Client_result ){
+                //console.log('RESULT1',test);
+                //console.log(result1);
+                console.log( 'createAuth0Client : RESULT ' );
+                setAuth0Client( createAuth0Client_result );
+            }).catch(function( createAuth0Client_error ){
+                console.log( 'createAuth0Client : ERROR ' );
+                console.log( createAuth0Client_error );
+            });
+        }// initThisClient
+
+        if(auth0client){
+            // Do Nothing
+            console.log('auth0client: YES : initialised');
+            console.log( 'auth0client=', auth0client );
+            console.log('auth0client: YES : initialised : DoingNothing. Just a If-Else Console.log');
+        }else{
+            console.log('auth0client: NOT : initialised');
+            initThisClient();
+        }
+           
+        return false;
+    } // onInitAuth0
+
     return(
     <React.Fragment>
     <div>{props.name}</div>
