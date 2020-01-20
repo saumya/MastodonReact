@@ -197,8 +197,10 @@ const Auth0Comp = function(props){
     } // onInitAuth0
 
     const onLogout = () =>{
-        console.log('TODO: Logout');
+        console.log('Logout');
         console.log( JSON.stringify(userObj) );
+
+        auth0client.logout({ returnTo: window.location.origin });
     } // onLogout
 
     const renderUserInfo = ()=>{
