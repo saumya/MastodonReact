@@ -196,10 +196,39 @@ const Auth0Comp = function(props){
         return false;
     } // onInitAuth0
 
+    const onLogout = () =>{
+        console.log('TODO: Logout');
+        console.log( JSON.stringify(userObj) );
+    } // onLogout
+
+    const renderUserInfo = ()=>{
+        return(
+            <div>
+                <p> User Info </p>
+                <img src={userObj.picture} alt="Profile" />
+                <h2>User Name- {userObj.name}</h2>
+                <p>User Email- {userObj.email}</p>
+                <div>The whole user Object code.</div>
+                <br></br>
+                <code className="has-background-light is-size-7">{JSON.stringify(userObj, null, 2)}</code>
+                <br></br>
+                <br></br>
+                <button className="button is-danger" onClick={onLogout}>Logout</button>
+            </div>
+        )
+    } // renderUserInfo
+
     return(
     <React.Fragment>
     <div>{props.name}</div>
-    <button className="button" onClick={onInitAuth0}>Init Auto0</button>
+    {
+        /*
+        <button className="button" onClick={onInitAuth0}>Init Auto0</button>
+        */
+    }
+    {( userObj ? null : <div>Wait a min ...</div> )}
+    {( userObj ? renderUserInfo() : null )}
+
     </React.Fragment>
 );
 };
