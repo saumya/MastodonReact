@@ -208,8 +208,9 @@ const Auth0Comp = function(props){
                 <img src={userObj.picture} alt="Profile" />
                 <h2>User Name- {userObj.name}</h2>
                 <p>User Email- {userObj.email}</p>
-                <div>The whole user Object code.</div>
+                <p>nickname- {userObj.nickname}</p>
                 <br></br>
+                <div>The whole user Object code.</div>
                 <code className="has-background-light is-size-7">{JSON.stringify(userObj, null, 2)}</code>
                 <br></br>
                 <br></br>
